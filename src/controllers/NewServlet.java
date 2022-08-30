@@ -1,9 +1,7 @@
 package controllers;
 
 import java.io.IOException;
-import java.util.List;
 
-import javax.persistence.EntityManager;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,20 +9,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import DTUil.util;
 import models.Task;
 
 /**
- * Servlet implementation class index
+ * Servlet implementation class NewServlet
  */
-@WebServlet("/index")
-public class index extends HttpServlet {
+@WebServlet("/new")
+public class NewServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public index() {
+    public NewServlet() {
         super();
 
     }
@@ -33,16 +30,16 @@ public class index extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        EntityManager em = util.createEntityManager();
+       //CSRF対策
+        request.setAttribute("_token", request.getSession());
 
 
-        List<Task> tasks = em.createNamedQuery("getAllTasks", Task.class).getResultList();
+        //Taskのインスタンスを生成
+        request.setAttribute("task", new Task());
 
 
-        em.close();
 
-        request.setAttribute("tasks", tasks);
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/task/index.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/task/new.jsp");
         rd.forward(request, response);
     }
 
