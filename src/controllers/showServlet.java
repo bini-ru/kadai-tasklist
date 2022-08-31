@@ -35,14 +35,14 @@ public class showServlet extends HttpServlet {
 		EntityManager em = util.createEntityManager();
 		
 		
-		//該当のIDメッセージ1件のみをデータベースから取得
+		//該当のIDタスク1件のみをデータベースから取得
 		Task t = em.find(Task.class, Integer.parseInt(request.getParameter("id")));
 		
 		
 		em.close();
 		
 		
-		//メッセージデータをリクエストスコープにセットしてshow.jspを呼び出す
+		//タスクデータをリクエストスコープにセットしてshow.jspを呼び出す
 		request.setAttribute("task", t);
 		
 		
