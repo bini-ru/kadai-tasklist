@@ -15,18 +15,18 @@ import DTUil.util;
 import models.Task;
 
 /**
- * Servlet implementation class index
+ * Servlet implementation class IndexServlet
  */
 @WebServlet("/index")
-public class index extends HttpServlet {
+public class IndexServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public index() {
+    public IndexServlet() {
         super();
-
+        // TODO Auto-generated constructor stub
     }
 
     /**
@@ -37,13 +37,16 @@ public class index extends HttpServlet {
 
 
         List<Task> tasks = em.createNamedQuery("getAllTasks", Task.class).getResultList();
-        response.getWriter().append(Integer.valueOf(tasks.size()).toString());
+
 
         em.close();
 
         request.setAttribute("tasks", tasks);
+
+
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/task/index.jsp");
         rd.forward(request, response);
     }
-
 }
+
+

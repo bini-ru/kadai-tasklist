@@ -31,33 +31,31 @@ public class CreateServlet extends HttpServlet {
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    String _token = request.getParameter("_token");
-    if(_token != null && _token.equals("_token")) {
-        EntityManager em = util.createEntityManager();
-        em.getTransaction().begin();
+        String _token = request.getParameter("_token");
+        if(_token != null && _token.equals(request.getSession().getId())) {
+            EntityManager em = util.createEntityManager();
+            em.getTransaction().begin();
 
 
-        Task t = new Task();
+            Task t = new Task();
 
 
-        String content = request.getParameter("content");
-        t.setContent(content);
+            String content = request.getParameter("content");
+            t.setContent(content);
 
 
-        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-        t.setCreated_at(currentTime);
-        t.setUpdated_at(currentTime);
+            Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+            t.setCreated_at(currentTime);
+            t.setUpdated_at(currentTime);
 
 
-        em.persist(t);
-        em.getTransaction().commit();
-        em.close();
+            em.persist(t);
+            em.getTransaction().commit();
+            em.close();
 
 
-        response.sendRedirect(request.getContextPath() + "/index");
-    }
+            response.sendRedirect(request.getContextPath() + "/index");
+        }
 
-
-    }
-
+        }
 }
